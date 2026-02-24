@@ -1,83 +1,64 @@
-// SCREEN SWITCH
-function nextScreen(num) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.getElementById(`screen${num}`).classList.add("active");
+const messages = [
+  "Daily Special: Heartberry cookies + cocoa. Sweet note: You make ordinary moments feel like warm pastries.",
+  "Daily Special: Cinnamon cloud roll. Sweet note: You are someone’s favorite cozy thought.",
+  "Daily Special: Honey paw buns. Sweet note: Your kindness rises like perfect dough.",
+  "Daily Special: Marshmallow mocha. Sweet note: May your day be soft, bright, and gently magical.",
+  "Daily Special: Strawberry star tart. Sweet note: You deserve tiny joys and big smiles today."
+];
 
-  if (num === 4) startTyping();
+const specialBtn = document.getElementById("specialBtn");
+const messageEl = document.getElementById("specialMessage");
+const chimeBtn = document.getElementById("chimeBtn");
+
+function pickDailyMessage() {
+  const daySeed = Math.floor(Date.now() / 86400000);
+  const index = daySeed % messages.length;
+  return messages[index];
 }
 
-// 🎵 MUSIC (FIXED)
-const music = document.getElementById("bgMusic");
-const btn = document.getElementById("musicBtn");
-let playing = false;
-
-btn.addEventListener("click", async () => {
-  try {
-    music.load();
-    if (!playing) {
-      await music.play();
-      btn.textContent = "⏸ Pause Music";
-      playing = true;
-    } else {
-      music.pause();
-      btn.textContent = "▶ Play Music";
-      playing = false;
-    }
-  } catch (e) {
-    alert("Tap once on the screen, then try again 💗");
-  }
+specialBtn.addEventListener("click", () => {
+  messageEl.textContent = pickDailyMessage();
+  messageEl.animate(
+    [
+      { transform: "translateY(6px)", opacity: 0.35 },
+      { transform: "translateY(0)", opacity: 1 }
+    ],
+    { duration: 240, easing: "ease-out" }
+  );
 });
 
-// ⏳ COUNTDOWN
-const targetDate = new Date("Feb 20, 2026 00:00:00").getTime();
+let audioCtx;
+let chimeInterval;
 
-setInterval(() => {
-  const now = new Date().getTime();
-  const diff = targetDate - now;
+function playChime() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
 
-  if (diff < 0) return;
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(1320, audioCtx.currentTime + 0.35);
 
-  document.getElementById("days").textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
-  document.getElementById("hours").textContent = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  document.getElementById("minutes").textContent = Math.floor((diff / (1000 * 60)) % 60);
-  document.getElementById("seconds").textContent = Math.floor((diff / 1000) % 60);
-}, 1000);
+  gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.11, audioCtx.currentTime + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
 
-// ⌨️ TYPING LETTER
-const letterText = `Hey my love,
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
 
-Some people walk into your life quietly,
-and somehow change everything.
-
-You are my favorite part of every day.
-With you, love feels gentle, safe, and real.
-
-As your birthday gets closer,
-I just want you to know how deeply you are loved.
-
-This is only the beginning of our story.
-I love you — always. 💗`;
-
-let i = 0;
-function startTyping() {
-  const el = document.getElementById("typedText");
-  el.textContent = "";
-  i = 0;
-
-  const typing = setInterval(() => {
-    el.textContent += letterText.charAt(i);
-    i++;
-    if (i >= letterText.length) clearInterval(typing);
-  }, 40);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.62);
 }
 
-// ✨ GLITTER CURSOR
-document.addEventListener("mousemove", e => {
-  const g = document.createElement("div");
-  g.className = "glitter";
-  g.textContent = "✨";
-  g.style.left = e.pageX + "px";
-  g.style.top = e.pageY + "px";
-  document.body.appendChild(g);
-  setTimeout(() => g.remove(), 1000);
+chimeBtn.addEventListener("click", () => {
+  if (chimeInterval) {
+    clearInterval(chimeInterval);
+    chimeInterval = null;
+    chimeBtn.textContent = "🔔 Soft Chimes: Off";
+    return;
+  }
+
+  playChime();
+  chimeInterval = setInterval(playChime, 7000);
+  chimeBtn.textContent = "🔔 Soft Chimes: On";
 });

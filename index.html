@@ -2,85 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>For You ❤️</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whisker's Warm Bakery</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <main class="bakery">
+    <header class="hero">
+      <p class="kicker">Pixel Cozy Corner</p>
+      <h1>Whisker's Warm Bakery</h1>
+      <p class="subtitle">Cats in tiny chef hats knead dough, bake heart cookies, and serve cocoa with marshmallows.</p>
+    </header>
 
-<!-- AUDIO -->
-<audio id="bgMusic" preload="auto">
-  <source src="music/elvis.mp3" type="audio/mpeg">
-</audio>
+    <section class="scene" aria-label="Pixel art bakery scene">
+      <div class="cat-row">
+        <article class="cat-card">
+          <div class="pixel-cat" aria-hidden="true">🐱</div>
+          <h2>Mochi the Dough Master</h2>
+          <p>*knead knead* ... tail swish rhythm.</p>
+        </article>
+        <article class="cat-card">
+          <div class="pixel-cat" aria-hidden="true">😺</div>
+          <h2>Puff the Cookie Artist</h2>
+          <p>Pulling heart-shaped cookies from the oven.</p>
+        </article>
+        <article class="cat-card cocoa">
+          <div class="pixel-cat" aria-hidden="true">🐾</div>
+          <h2>Bean the Cocoa Barista</h2>
+          <p>Hot cocoa topped with fluffy marshmallows.</p>
+          <div class="cup" aria-hidden="true">
+            <span class="steam s1"></span>
+            <span class="steam s2"></span>
+            <span class="steam s3"></span>
+            <span class="marshmallow m1"></span>
+            <span class="marshmallow m2"></span>
+            <span class="marshmallow m3"></span>
+          </div>
+        </article>
+      </div>
+    </section>
 
-<button id="musicBtn">▶ Play Music</button>
+    <section class="daily-special">
+      <button id="specialBtn" class="pixel-btn" type="button">Get Daily Special ✨</button>
+      <p id="specialMessage" class="message">Tap for today’s sweet surprise!</p>
+      <button id="chimeBtn" class="tiny-btn" type="button">🔔 Soft Chimes: Off</button>
+    </section>
+  </main>
 
-<div class="floating-hearts"></div>
-
-<!-- SCREEN 1 -->
-<section class="screen active" id="screen1">
-  <h1 class="cinematic fade">Hey you 💕</h1>
-  <p class="fade delay1">This is something I made… just for you</p>
-  <button onclick="nextScreen(2)">Begin ✨</button>
-</section>
-
-<!-- SCREEN 2 -->
-<section class="screen" id="screen2">
-  <h1 class="fade">🎀 A Quiet Little Surprise 🎀</h1>
-
-  <div class="cute-box fade delay1">
-    <p>
-      Somewhere between all the normal days,<br>
-      I found myself wanting to do something special for you.
-    </p>
-    <p>
-      Your birthday is on <b>20th February</b> 🎂  
-      and I couldn’t wait that long.
-    </p>
-  </div>
-
-  <button onclick="nextScreen(3)">Continue 💗</button>
-</section>
-
-<!-- SCREEN 3 -->
-<section class="screen" id="screen3">
-  <h1 class="fade">⏳ Until Your Birthday ⏳</h1>
-
-  <div class="countdown">
-    <div><span id="days">0</span><small>Days</small></div>
-    <div><span id="hours">0</span><small>Hours</small></div>
-    <div><span id="minutes">0</span><small>Minutes</small></div>
-    <div><span id="seconds">0</span><small>Seconds</small></div>
-  </div>
-
-  <p class="fade delay1 small">
-    Every second brings us closer to celebrating you 💕
-  </p>
-
-  <button onclick="nextScreen(4)">Read This 💌</button>
-</section>
-
-<!-- SCREEN 4 -->
-<section class="screen" id="screen4">
-  <h1 class="fade">A Letter From My Heart 💖</h1>
-
-  <div class="letter">
-    <p id="typedText"></p>
-  </div>
-
-  <button onclick="nextScreen(5)">💗</button>
-</section>
-
-<!-- SCREEN 5 -->
-<section class="screen" id="screen5">
-  <h1 class="fade">🎬 End Scene 🎬</h1>
-  <p class="fade delay1">
-    Happy Early Birthday, my favorite person.<br>
-    This story… is just beginning.
-  </p>
-</section>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
-
